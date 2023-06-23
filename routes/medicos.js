@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const { connection } = require('../database/conexion.js')
+const consulta = require('../database/query.js')
+
 
 router.get('/', function (req, res, next) {
-    connection.query('SELECT * FROM medicos', (error, results) => {
+    let tabla = new consulta.consultas('medicos')
+    tabla.select("*",(error,results)=>{
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")

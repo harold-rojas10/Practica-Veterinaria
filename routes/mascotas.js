@@ -1,21 +1,25 @@
 var express = require('express');
 var router = express.Router();
 const { connection } = require('../database/conexion.js')
+const consulta = require('../database/query.js')
 
 router.get('/', function (req, res, next) {
-    connection.query('SELECT * FROM mascotas', (error, results) => {
+    let tabla = new consulta.consultas('mascotas')
+    tabla.select("*",(error,results)=>{
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")
         } else {
             res.render('mascotas', { title: 'mascotas', mascotas: results, opcion: 'disabled', estado: true })
         }
-    });
+
+    })
 });
 
 router.get('/enviar/:clave', function (req, res, next) {
     const clave = req.params.clave;
-    connection.query('SELECT * FROM mascotas', (error, results) => {
+    let tabla = new consulta.consultas('mascotas')
+    tabla.select("*",(error,results) => {
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")

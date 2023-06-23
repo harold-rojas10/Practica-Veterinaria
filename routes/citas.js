@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const { connection } = require('../database/conexion.js')
+const consulta = require('../database/query.js')
+
 
 router.get('/', function (req, res, next) {
     connection.query('SELECT cm.id,cm.fecha, cm.id_mascota, mas.nombre, med.nombres, med.apellidos, med.consultorio FROM cita_medica cm, mascotas mas, medicos med WHERE cm.id_mascota = mas.cedula_duenio AND cm.id_medico= med.cedula', (error, results) => {
@@ -14,12 +16,16 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/agregar-cita', function (req, res, next) {
-    connection.query('SELECT cedula_duenio FROM mascotas', (error, results) => {
+    let tabla = new consulta.consultas('mascotas')
+    tabla.select("cedula_duenio", (error, results) => {
+        //connection.query('SELECT cedula_duenio FROM mascotas', (error, results) => {
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")
         } else {
-            connection.query('SELECT especialidad FROM medicos', (error, results2) => {
+            let tabla = new consulta.consultas('medicos')
+            tabla.select("especialidad", (error, results2) => {
+                //connection.query('SELECT especialidad FROM medicos', (error, results2) => {
                 if (error) {
                     console.log("Error en la consulta", error)
                     res.status(500).send("Error en la consulta")
