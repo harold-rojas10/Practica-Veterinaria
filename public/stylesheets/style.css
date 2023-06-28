@@ -16,7 +16,7 @@ h2 {
 }
 
 table {
-  width: 60%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
@@ -27,7 +27,8 @@ th,
 td {
   padding: 8px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #a4a2a2;
+  
 }
 
 th {
@@ -38,11 +39,11 @@ tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-a,
+a,button,
 input[type="submit"] {
   color: #fff;
   text-decoration: none;
-  padding: 8px 12px;
+  padding: 8px 8px;
   background-color: #4caf50;
   border: none;
   font-size: medium;
@@ -62,6 +63,17 @@ input[type="submit"]:hover {
   background-color: #429396;
 }
 
-button {
-  margin-top: 10px;
+.cancelar{
+  background-color: red;
 }
+.cancelar:hover{
+  background-color: rgb(247, 65, 65);
+} 
+.botones{
+  display: flex;
+  border: hidden;
+}
+.iconos,td a:first-child{
+  margin-inline: 5px;
+}
+
