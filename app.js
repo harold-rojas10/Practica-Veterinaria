@@ -19,7 +19,7 @@ const hbs = exphbs.create({
   partialsDir: ["views/components"]
 })
 
-//helper
+//helpers
 hbs.handlebars.registerHelper('formatoFecha', function(date){
   return moment(date).format('DD/MM/YYYY')
 })
