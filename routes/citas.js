@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const { connection } = require('../database/conexion.js')
 const consulta = require('../database/query.js')
+const funsiones = require('../database/funsiones.js')
+
 
 
 router.get('/', function (req, res, next) {
@@ -38,16 +40,25 @@ router.get('/agregar-cita', function (req, res, next) {
 });
 
 router.post('/agregar', function (req, res, next) {
-    const cedulaDuenio = req.body.cedula;
-    const fecha = req.body.fecha;
+    //const cedulaDuenio = req.body.cedula;
+    //const fecha = req.body.fecha;
     const especialidad = req.body.especialidad;
     connection.query(`SELECT cedula FROM medicos WHERE especialidad='${especialidad}'`, (error, results) => {
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")
         } else {
-            let cedulaMedico = results[0].cedula
-            connection.query(`INSERT INTO cita_medica (id_mascota, id_medico, fecha) VALUES (${cedulaDuenio},${cedulaMedico}, '${fecha}')`, (error, result) => {
+            const thCitas = 'id_mascota, id_medico, fecha'
+            const citaInfo = {
+                cedulaDuenio: req.body.cedula,
+                cedulaMedico: results[0].cedula,
+                fecha: req.body.fecha
+            };
+            const datos = funsiones.StringAuto(citaInfo)
+            console.log(datos)
+            let tabla = new consulta.consultas('cita_medica')
+            //connection.query(`INSERT INTO cita_medica (id_mascota, id_medico, fecha) VALUES (${cedulaDuenio},${cedulaMedico}, '${fecha}')`, (error, result) =>
+            tabla.Insert(thCitas, datos, (error, results) => {
                 if (error) {
                     console.log("Ocurrio un error en la ejecución", error)
                     res.status(500).send("Error en la consulta");

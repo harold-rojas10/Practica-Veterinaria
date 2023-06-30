@@ -15,21 +15,48 @@
     <tbody>
         {{#each medicos}}
         <tr>
-            <td>{{cedula}}</td>
-            <td>{{nombres}}</td>
-            <td>{{apellidos}}</td>
-            <td>{{especialidad}}</td>
-            <td>{{consultorio}}</td>
-            <td>{{correo}}</td>
-            <td>
-                <a href="/medicos/enviar/{{@key}}" data-bs-toggle="popover" data-bs-placement="bottom"
-                    data-bs-trigger="hover focus" data-bs-content="Editar"><i class="fa fa-exchange"
-                        aria-hidden="true"></i></a>
-
-                <a href="/medicos/eliminar/{{cedula}}" class="cancelar iconos" data-bs-toggle="popover"
-                    data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-content="Elminar"><i
-                        class="fa fa-times"></i>
-            </td>
+            <form action="/medicos/actualizar/{{cedula}}" method="post">
+                <td><input type="text" id="cedula" name="cedula" value="{{cedula}}" disabled></td>
+                <td><input type="text" id="nombres" name="nombres" value="{{nombres}}" {{#ifCond @key '!='
+                        ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
+                <td><input type="text" id="apellidos" name="apellidos" value="{{apellidos}}" {{#ifCond @key '!='
+                        ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
+                <td>
+                    <select id="especialidad" name="especialidad" {{#ifCond @key '!='
+                        ../claveSeleccionada}}{{../opcion}}{{/ifCond}}>
+                        <option value="{{especialidad}}">{{especialidad}}</option>
+                        <option value="Medicina general">Medicina general</option>
+                        <option value="Cardiología">Cardiología</option>
+                        <option value="Medicina interna">Medicina interna</option>
+                        <option value="Dermatología">Dermatología</option>
+                        <option value="Rehabilitación física">Rehabilitación física</option>
+                        <option value="Psicología">Psicología</option>
+                    </select>
+                <td><input type="text" id="consultorio" name="consultorio" value="{{consultorio}}" {{#ifCond @key '!='
+                        ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
+                <td><input type="text" id="correo" name="correo" value="{{correo}}" {{#ifCond @key '!='
+                        ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
+                <td>
+                    <div class="botones">
+                        {{#if ../estado}}
+                        <a href="/medicos/enviar/{{@key}}" data-bs-toggle="popover" data-bs-placement="bottom"
+                            data-bs-trigger="hover focus" data-bs-content="Editar"><i class="fa fa-exchange"
+                                aria-hidden="true"></i></a>
+                        <a href="/medicos/eliminar/{{cedula}}" class="cancelar iconos" data-bs-toggle="popover"
+                            data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-content="Elminar"><i
+                                class="fa fa-times"></i></a>
+                        {{else}}
+                        {{#ifCond @key '==' ../claveSeleccionada}}
+                        <button type="submit" data-bs-toggle="popover" data-bs-placement="bottom"
+                            data-bs-trigger="hover focus" data-bs-content="Enviar"
+                            data-bs-custom-class="custom-popover"><i class="fa fa-check"></i></button>
+                        <a href="/medicos" class="cancelar iconos" data-bs-toggle="popover" data-bs-placement="bottom"
+                            data-bs-trigger="hover focus" data-bs-content="Cancelar"><i class="fa fa-times"></i></a>
+                        {{/ifCond}}
+                        {{/if}}
+                    </div>
+                </td>
+            </form>
         </tr>
         {{/each}}
     </tbody>

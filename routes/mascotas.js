@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { connection } = require('../database/conexion.js')
 const consulta = require('../database/query.js')
+const funsiones = require('../database/funsiones.js')
 
 router.get('/', function (req, res, next) {
     let tabla = new consulta.consultas('mascotas')
@@ -35,12 +36,17 @@ router.get('/agregar-mascota', function (req, res, next) {
 });
 //Agregar mascotas
 router.post('/agregar', (req, res) => {
-    const cedula = req.body.cedula
-    const nombre = req.body.mascota
-    const nombre_duenio = req.body.duenio
-    const edad = req.body.edad
-    const telefono = req.body.telefono
-    connection.query(`INSERT INTO mascotas (cedula_duenio,nombre,nombre_duenio,edad,telefono_duenio) VALUES (${cedula},'${nombre}','${nombre_duenio}',${edad},${telefono});`, (error, results) => {
+    const datos = funsiones.StringAuto(req.body)
+    const thMascotas = 'nombre,nombre_duenio,cedula_duenio,edad,telefono_duenio' 
+    //const cedula = req.body.cedula
+    //const nombre = req.body.mascota
+    //const nombre_duenio = req.body.duenio
+    //const edad = req.body.edad
+    //const telefono = req.body.telefono
+    //connection.query(`INSERT INTO mascotas (${thMascotas}) VALUES (${datos});`, (error, results)
+    console.log(datos)
+    let tabla = new consulta.consultas('mascotas')
+    tabla.Insert(thMascotas,datos,(error,results)=> {
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")

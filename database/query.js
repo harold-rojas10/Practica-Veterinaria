@@ -8,6 +8,11 @@ class consultas {
     select(columna,callback) {
         connection.query(`SELECT ${columna} FROM ${this.name}`, callback);
     }
+    Insert(thtabla,newDatos,callback){
+        let mensaje = `INSERT INTO ${this.name} (${thtabla}) VALUES (${newDatos});`
+        console.log(mensaje)
+        connection.query(`INSERT INTO ${this.name} (${thtabla}) VALUES (${newDatos});`, (callback));
+    }
 
 }
 module.exports = { consultas }
