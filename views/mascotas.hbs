@@ -15,14 +15,14 @@
         {{#each mascotas}}
         <tr>
             <form action="/mascotas/actualizar/{{cedula_duenio}}" method="post">
-                <td><input type="text" id="mascota" name="mascota" value="{{nombre}}" {{#ifCond @key '!='
+                <td><input type="text" id="nombre" name="nombre" value="{{nombre}}" {{#ifCond @key '!='
                         ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
-                <td><input type="text" id="duenio" name="duenio" value="{{nombre_duenio}}" {{#ifCond @key '!='
+                <td><input type="text" id="nombre_duenio" name="nombre_duenio" value="{{nombre_duenio}}" {{#ifCond @key '!='
                         ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
                 <td><input type="text" value="{{cedula_duenio}}" disabled></td>
                 <td><input type="text" id="edad" name="edad" value="{{edad}}" {{#ifCond @key '!='
                         ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
-                <td><input type="tel" id="telefono" name="telefono" value="{{telefono_duenio}}" {{#ifCond @key '!='
+                <td><input type="tel" id="telefono_duenio" name="telefono_duenio" value="{{telefono_duenio}}" {{#ifCond @key '!='
                         ../claveSeleccionada}}{{../opcion}}{{/ifCond}}></td>
                 <td  >
                     <div class="botones">

@@ -21,7 +21,7 @@ const hbs = exphbs.create({
 
 //helpers
 hbs.handlebars.registerHelper('formatoFecha', function(date){
-  return moment(date).format('DD/MM/YYYY')
+  return moment(date).format('YYYY/MM/DD')
 })
 hbs.handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
   switch (operator) {

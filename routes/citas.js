@@ -3,19 +3,22 @@ var router = express.Router();
 const { connection } = require('../database/conexion.js')
 const consulta = require('../database/query.js')
 const funsiones = require('../database/funsiones.js')
+const tabla = new consulta.consultas('cita_medica')
 
 
 
 router.get('/', function (req, res, next) {
     connection.query('SELECT cm.id,cm.fecha, cm.id_mascota, mas.nombre, med.nombres, med.apellidos, med.consultorio FROM cita_medica cm, mascotas mas, medicos med WHERE cm.id_mascota = mas.cedula_duenio AND cm.id_medico= med.cedula', (error, results) => {
+        console.log(results)
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")
         } else {
-            res.render('citas', { title: 'citas', citas: results })
+            res.render('citas', { title: 'citas', citas: results, opcion: 'disabled', estado: true })
         }
     });
 });
+
 
 router.get('/agregar-cita', function (req, res, next) {
     let tabla = new consulta.consultas('mascotas')
@@ -56,7 +59,6 @@ router.post('/agregar', function (req, res, next) {
             };
             const datos = funsiones.StringAuto(citaInfo)
             console.log(datos)
-            let tabla = new consulta.consultas('cita_medica')
             //connection.query(`INSERT INTO cita_medica (id_mascota, id_medico, fecha) VALUES (${cedulaDuenio},${cedulaMedico}, '${fecha}')`, (error, result) =>
             tabla.Insert(thCitas, datos, (error, results) => {
                 if (error) {
@@ -72,7 +74,9 @@ router.post('/agregar', function (req, res, next) {
 //eliminar citas
 router.get('/eliminar/:id', function (req, res, next) {
     const id = req.params.id
-    connection.query(`DELETE FROM cita_medica WHERE id=${id}`, (error, results) => {
+    const columId = 'id'
+    tabla.Delet(columId,id,(error,results) => {
+    //connection.query(`DELETE FROM cita_medica WHERE id=${id}`, (error, results) => {
         if (error) {
             console.log("Error en la consulta", error)
             res.status(500).send("Error en la consulta")
@@ -81,5 +85,6 @@ router.get('/eliminar/:id', function (req, res, next) {
         }
     });
 });
+
 
 module.exports = router;
